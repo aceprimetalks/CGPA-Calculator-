@@ -1,0 +1,112 @@
+/* CGPA Calculator
+Sums up a student's CA and Exam then use it to calculate the CGPA.
+*/
+
+#include <iostream>
+#include <iomanip>
+
+
+
+using namespace std; //standard name space
+
+
+
+struct Course {          //created a data structure with Course details as members
+    string name;
+    int creditHours;
+    float totalGradePoints;
+    int totalCreditHours= 0;
+};
+
+
+class Sgrades: public Course{    //inherited the members of the data struct "Course", then created a class Sgrades
+    public:
+      int CA, Exam, total_score; //variable to store the students score.
+      char grades; //variable to store the student grades
+      float GP;
+      double cgpa; //variable to store the student cgpa.
+      void input_score(int,int); //declaration of the input_score() function
+      void grade_result(); //declaration of the grade_result() function
+      void Cal_cgpa(); //declaration of the Cal_cgpa() function
+};
+
+void Sgrades::input_score(int m,int n){ //input function CA and Exam Scores, also calculates the total score
+    CA= m;
+    Exam= n;
+    total_score = CA + Exam;
+}
+
+void Sgrades::grade_result(){ //function to assign grades and the GP.
+
+    if (total_score >70){
+            grades='A';
+            GP = 5.0;
+            }
+    else if (total_score >=60 && total_score <70){
+            grades='B';
+            GP = 4.0;
+            }
+    else if (total_score >=50 && total_score <60){
+            grades='C';
+            GP = 3.0;
+            }
+    else if (total_score >=45 && total_score <50){
+            grades='D';
+            GP = 2.0;
+            }
+    else if (total_score >=40 && total_score <=44){
+            grades='E';
+            GP = 1.0;
+            }
+    else if (total_score <40){
+            grades='F';
+            GP = 0.0;
+            }
+}
+
+void Sgrades::Cal_cgpa(){ //function to calculate the cgpa.
+    totalGradePoints += GP * creditHours;
+    totalCreditHours += creditHours;
+
+    cgpa = totalGradePoints / totalCreditHours;
+}
+
+int main()
+{
+    Sgrades student;  //created an object "student" for the class Sgrades.
+    Course course;  //created an object "student" for the data struct Course.
+    int b, c;
+
+
+
+    int numCourses;
+    cout << "Enter the number of courses: ";
+    cin >> numCourses; //input for number of courses.
+
+        for (int i=1; i <= numCourses; ++i) {
+        cout << "Enter details for Course " << i << ":\n";
+        cout << "Course Name: ";
+        cin.ignore();  // Clear the buffer before reading the course name
+        getline(cin, course.name); //input for course name.
+        cout << "Credit Hours: ";
+        cin >> course.creditHours; //input for credit hours.
+        cout <<"ENTER STUDENT CA: ";
+        cin >> b;      //input for CA score.
+        cout <<"ENTER STUDENT EXAM SCORE: ";
+        cin >> c;    //input for Exam score.
+        student.input_score(b,c);  //inputs the CA and Exam scores of the student.
+        student.grade_result();   //runs the grade_result function, then assign grade and GP value.
+        student.Cal_c gpa();   //executes the function Cal_cgpa calculates the cgpa of the student and assign it to the variable cgpa
+    }
+    for (int i=numCourses; i>0; --i) {
+    cout << "Grade: "<< i  << ": "<< student.grades<< endl; //prints the student grade
+    }
+
+
+    cout << fixed << setprecision(2);
+    cout << "Your CGPA is: " << student.cgpa << "\n";  //prints out the student's cgpa
+
+
+
+    return 0;
+}
